@@ -210,3 +210,13 @@ ol {
     font-size: 1px;
     line-height: 0px;
 }
+/* 全局设置所有段落首行缩进2个字符 */
+p {
+  text-indent: 2em;
+  margin: 0.5em 0; /* 可选：调整段落间距 */
+}
+
+/* 如果需要排除某些特殊区域（如代码块、标题） */
+pre, h1, h2, h3 {
+  text-indent: 0;
+}
