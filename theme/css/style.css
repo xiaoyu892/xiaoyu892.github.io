@@ -1,212 +1,232 @@
-* { margin: 0; padding: 0; }
+/* 现代CSS重置 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-/* *** General Styles *** */
+/* CSS变量 - 保持原有颜色和尺寸 */
+:root {
+  --primary-color: #293331;
+  --accent-color: #a7aa9e;
+  --body-font: Georgia, "Times New Roman", Times, serif;
+  --base-font-size: 13px;
+  --container-width: 780px;
+  --sidebar-width: 150px;
+}
 
-body  {
-	background: url(../images/background.jpg);
-	color: #293331;
-	font: 13px Georgia, "Times New Roman", Times, serif;
-	text-align: center;
+/* 基础样式 */
+body {
+  background: url(../images/background.jpg);
+  color: var(--primary-color);
+  font: var(--base-font-size) var(--body-font);
+  text-align: center;
 }
 
 a {
-	color: #293331;
+  color: var(--primary-color);
 }
 
 a:hover {
-	background: #a7aa9e;
+  background: var(--accent-color);
 }
 
 #header a,
 #topMenu a,
 .blogItem h2 a,
 .blogMeta a {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 p {
-	line-height: 1.5em;
-	padding: 5px 0;
+  line-height: 1.5em;
+  padding: 5px 0;
 }
 
 h1,
 h2,
-h3 { 
-	font-weight: normal;
+h3 {
+  font-weight: normal;
 }
 
 blockquote {
-	background: url(../images/body.gif) top left repeat-y;
-	font-size: 14px;
-	font-style: italic;
-	padding: 5px 0 5px 30px;
+  background: url(../images/body.gif) top left repeat-y;
+  font-size: 14px;
+  font-style: italic;
+  padding: 5px 0 5px 30px;
 }
 
 ul,
 ol {
-	margin-left: 20px;
-	line-height: 1.6em;
+  margin-left: 20px;
+  line-height: 1.6em;
 }
 
-/* *** Layout *** */
+/* 布局结构 - 使用Flexbox替代浮动 */
+#container {
+  background: url(../images/spill.gif) no-repeat top right;
+  margin: 0 auto;
+  text-align: left;
+  width: var(--container-width);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
-#container { 
-	background: url(../images/spill.gif) no-repeat top right;
-	margin: 0 auto;
-	text-align: left;
-	width: 780px;
-} 
-
-#header { 
-	background: url(../images/header.gif) no-repeat;
-	height: 109px;
-	padding: 0 10px 0 20px;
-} 
+#header {
+  background: url(../images/header.gif) no-repeat;
+  height: 109px;
+  padding: 0 10px 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 #topMenu {
-	background: url(../images/menubar.gif) no-repeat;
-	height: 48px;
+  background: url(../images/menubar.gif) no-repeat;
+  height: 48px;
 }
 
-#sidebar {
-	float: right;
-	padding: 20px 30px 10px 0;
-	text-align: right;
-	width: 150px; 
+main {
+  display: flex;
 }
 
 #mainContent {
-	background: url(../images/body.gif) repeat-y;
-	padding: 20px 250px 10px 40px;
-} 
+  background: url(../images/body.gif) repeat-y;
+  padding: 20px 250px 10px 40px;
+  flex: 1;
+}
 
-#footer { 
-	background: url(../images/bottom.gif) no-repeat;
-	font-size: 12px;
-	height: 70px;
-	padding: 0 10px 0 20px;
-} 
+#sidebar {
+  padding: 20px 30px 10px 0;
+  text-align: right;
+  width: var(--sidebar-width);
+}
 
-/* *** Header Styles *** */
+#footer {
+  background: url(../images/bottom.gif) no-repeat;
+  font-size: 12px;
+  height: 70px;
+  padding: 0 10px 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+/* 头部样式 */
 #header h1 {
-	font-size: 48px;
-	font-weight: normal;
-	padding: 20px 0 0 170px;
+  font-size: 48px;
+  font-weight: normal;
+  padding: 20px 0 0 170px;
 }
 
 #header h2 {
-	font-size: 18px;
-	font-weight: normal;
-	text-align: right;
+  font-size: 18px;
+  font-weight: normal;
 }
 
 #header a:hover {
-	background: none;
+  background: none;
 }
 
-/* *** Top Menu Styles *** */
-
+/* 顶部菜单样式 */
 #topMenu ul {
-	font-size: 24px;
-	line-height: 1em;
-	list-style: none;
-	padding: 14px 30px 0 0;
-	text-align: right;
-}
-
-#topMenu li {
-	display: inline;
+  font-size: 24px;
+  line-height: 1em;
+  list-style: none;
+  padding: 14px 30px 0 0;
+  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
 }
 
 #topMenu a:hover {
-	background: url(../images/hr.gif) center center no-repeat;
+  background: url(../images/hr.gif) center center no-repeat;
 }
 
-/* *** Blog Styles *** */
-
+/* 博客样式 */
 .blogItem {
-	padding-bottom: 20px;
+  padding-bottom: 20px;
 }
 
 .blogItem h2,
 .blogItem h3 {
-	font-weight: normal;
+  font-weight: normal;
 }
 
 .blogItem h2 a:hover,
 .blogItem h3 a:hover {
-	background: none;
-	text-decoration: underline;
+  background: none;
+  text-decoration: underline;
 }
 
 .blogItem h2 {
-	font-size: 24px;
+  font-size: 24px;
 }
 
 .blogItem h3 {
-	background: url(../images/hr.gif) bottom left no-repeat;
-	font-size: 14px;
-	padding-bottom: 6px;
+  background: url(../images/hr.gif) bottom left no-repeat;
+  font-size: 14px;
+  padding-bottom: 6px;
 }
 
 .blogItem h3.blogMeta {
-	background-position: top left;
-	padding: 6px 0 0 0;
-	text-align: right;
+  background-position: top left;
+  padding: 6px 0 0 0;
+  text-align: right;
 }
 
-/* *** Sidebar Styles *** */
-
+/* 侧边栏样式 */
 #sidebar h3 {
-	font-size: 24px;
-	font-weight: normal;
+  font-size: 24px;
+  font-weight: normal;
 }
 
 #sidebar ul {
-	line-height: 1.8em;
-	list-style: none;
-	padding-bottom: 20px;
+  line-height: 1.8em;
+  list-style: none;
+  padding-bottom: 20px;
 }
 
 #sidebar ul a {
-	text-decoration: none;
+  text-decoration: none;
 }
 
-/* *** Comments Styles *** */
-
+/* 评论样式 */
 #comments {
-	margin: 20px 0 0 20px;
+  margin: 20px 0 0 20px;
 }
 
 #comments li {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .commentSep {
-	background: url(../images/hr.gif) bottom left no-repeat;
+  background: url(../images/hr.gif) bottom left no-repeat;
 }
 
-/* *** Footer Styles *** */
-
+/* 页脚样式 */
 #footer p {
-	padding: 30px 0 0 0;
-	text-align: center;
+  padding: 0;
 }
 
+/* 浮动和清除浮动 - 保留原有功能 */
 .floatR {
-	float: right;
-	margin-left: 8px;
+  float: right;
+  margin-left: 8px;
 }
 
-.floatL { 
-	float: left;
-	margin-right: 8px;
+.floatL {
+  float: left;
+  margin-right: 8px;
 }
 
-.clearfloat {
-	clear:both;
-    height:0;
-    font-size: 1px;
-    line-height: 0px;
+/* 现代清除浮动方法 */
+.clearfix::after {
+  content: "";
+  display: block;
+  clear: both;
 }
