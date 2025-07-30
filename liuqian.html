@@ -10,22 +10,25 @@
 <body class="min-h-screen p-4 m-0 overflow-x-hidden relative">
     <!-- 自定义背景图 -->
     <div class="fixed inset-0 -z-10">
-        <!-- 替换下面的src为您的图片地址 -->
         <img src="https://picsum.photos/id/1015/1920/1080" 
              alt="自定义背景图" 
              class="w-full h-full object-cover">
-        <!-- 半透明遮罩，增强文字可读性 -->
         <div class="absolute inset-0 bg-black/50"></div>
     </div>
 
     <div class="text-center max-w-4xl mx-auto h-full flex flex-col relative z-10">
         <!-- 视频上方文本 -->
         <div class="mb-4 text-white drop-shadow-lg mt-6">
-            
             <p class="text-base md:text-lg text-gray-200 max-w-2xl mx-auto">网址输错了吗，小胡为你指路 0218.kageyam.top</p>
+            <p id="autoplay提示" class="text-sm text-yellow-300 mt-2 hidden">
+                <i class="fa fa-info-circle"></i> 点击任意位置开始播放视频
+            </p>
+            <p class="text-sm text-green-300 mt-2">
+                <i class="fa fa-volume-off"></i> 点击视频中的音量按钮开启声音
+            </p>
         </div>
         
-        <!-- 视频容器（带边框装饰） -->
+        <!-- 视频容器 -->
         <div class="relative rounded-xl overflow-hidden shadow-[0_0_30px_rgba(255,255,255,0.15)] bg-black/30 backdrop-blur-sm flex-grow flex items-center justify-center p-2 md:p-4">
             <!-- 加载指示器 -->
             <div id="loader" class="absolute inset-0 flex items-center justify-center z-10">
@@ -37,49 +40,86 @@
             
             <!-- 视频播放器 -->
             <video 
+                id="mainVideo"
                 autoplay 
-                muted
+                muted 
                 loop 
+                controls 
                 class="max-w-full rounded-lg shadow-inner"
                 poster="https://picsum.photos/1280/720?grayscale&blur=1"
-                style="max-height: calc(100vh - 220px);"
+                style="max-height: calc(100vh - 240px);"
             >
                 <source src="https://www.kageyam.top/hu.mp4" type="video/mp4">
                 您的浏览器不支持HTML5视频播放
             </video>
         </div>
         
-        <!-- 底部装饰元素 -->
+        <!-- 底部信息 -->
         <div class="mt-6 text-white/60 text-sm flex justify-center items-center gap-2">
-            <span>视频内容展示</span>
-            <i class="fa fa-circle text-xs animate-pulse"></i>
-            <span>全屏可见</span>
+            <button id="playButton" class="flex items-center gap-1 hover:text-white transition">
+                <i class="fa fa-play"></i> 播放/暂停
+            </button>
+            <span>|</span>
+            <button id="soundButton" class="flex items-center gap-1 hover:text-white transition">
+                <i class="fa fa-volume-up"></i> 开关声音
+            </button>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const video = document.querySelector('video');
+            const video = document.getElementById('mainVideo');
             const loader = document.getElementById('loader');
+            const autoplay提示 = document.getElementById('autoplay提示');
+            const playButton = document.getElementById('playButton');
+            const soundButton = document.getElementById('soundButton');
             
-            // 视频可以播放时隐藏加载动画
-            video.addEventListener('canplay', () => {
-                loader.style.opacity = '0';
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                }, 500);
+            // 检查视频是否能自动播放
+            video.play().catch(error => {
+                console.log('自动播放失败，需要用户交互:', error);
+                autoplay提示.classList.remove('hidden');
+                
+                // 点击页面任意位置播放视频
+                document.addEventListener('click', () => {
+                    video.play();
+                    autoplay提示.classList.add('hidden');
+                }, { once: true });
             });
             
-            // 窗口大小变化时重新调整视频尺寸
-            window.addEventListener('resize', adjustVideoSize);
+            // 视频加载成功
+            video.addEventListener('canplay', () => {
+                loader.style.opacity = '0';
+                setTimeout(() => { loader.style.display = 'none'; }, 500);
+            });
             
-            // 初始调整视频尺寸
+            // 播放/暂停按钮功能
+            playButton.addEventListener('click', () => {
+                if (video.paused) {
+                    video.play();
+                    playButton.innerHTML = '<i class="fa fa-pause"></i> 播放/暂停';
+                } else {
+                    video.pause();
+                    playButton.innerHTML = '<i class="fa fa-play"></i> 播放/暂停';
+                }
+            });
+            
+            // 声音开关按钮功能
+            soundButton.addEventListener('click', () => {
+                video.muted = !video.muted;
+                if (video.muted) {
+                    soundButton.innerHTML = '<i class="fa fa-volume-off"></i> 开关声音';
+                } else {
+                    soundButton.innerHTML = '<i class="fa fa-volume-up"></i> 开关声音';
+                }
+            });
+            
+            // 窗口大小变化时调整视频尺寸
+            window.addEventListener('resize', adjustVideoSize);
             adjustVideoSize();
             
             function adjustVideoSize() {
                 const windowHeight = window.innerHeight;
-                // 根据屏幕高度动态调整视频最大高度
-                const headerFooterHeight = window.innerWidth < 768 ? 180 : 220;
+                const headerFooterHeight = window.innerWidth < 768 ? 200 : 240;
                 const maxVideoHeight = windowHeight - headerFooterHeight;
                 video.style.maxHeight = `${maxVideoHeight}px`;
             }
@@ -89,6 +129,11 @@
     <style>
         #loader {
             transition: opacity 0.5s ease-out;
+        }
+        
+        /* 确保视频控件始终可见 */
+        video::-webkit-media-controls {
+            display: flex !important;
         }
     </style>
 </body>
