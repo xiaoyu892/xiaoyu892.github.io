@@ -1,33 +1,64 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blind</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 26px;
-    }
-
-    .container {
-      max-width: 800px;
-      padding: 20px;
-      text-align: center;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xiao</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <!-- 视频容器 -->
+    <div class="text-center max-w-4xl w-full">
+        <!-- 视频上方的文本 -->
+        <div class="mb-6 text-white drop-shadow-lg">
+            <p class="text-xl md:text-2xl">怎么输错网址了，小胡为你指路 0218.kageyam.top</p>
+        </div>
+        
+        <!-- 视频播放器 -->
+        <div class="relative rounded-lg overflow-hidden shadow-2xl">
+            <video 
+                autoplay 
+                muted 
+                loop 
+                class="w-full max-w-4xl mx-auto"
+                poster="https://picsum.photos/1280/720?blur=2"  <!-- 视频加载前显示的封面图 -->
+            >
+                <source src="https://www.kageyam.top/hu.mp4" type="video/mp4">
+                您的浏览器不支持HTML5视频播放，请升级浏览器。
+            </video>
+        </div>
+    </div>
 
-<body>
-  <div class="container">
-    <p>网址都打错了，或许你需要一个眼镜<p>
-  </div>
+    <style>
+        /* 确保视频容器在各种屏幕尺寸上都能居中 */
+        .max-w-4xl {
+            max-width: 100%;
+        }
+        
+        /* 视频加载时的过渡效果 */
+        video {
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        video.loading {
+            opacity: 0;
+        }
+    </style>
+
+    <script>
+        // 简单的视频加载处理
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.querySelector('video');
+            
+            // 添加加载类
+            video.classList.add('loading');
+            
+            // 视频可以播放时移除加载类
+            video.addEventListener('canplay', function() {
+                video.classList.remove('loading');
+            });
+        });
+    </script>
 </body>
-
 </html>
